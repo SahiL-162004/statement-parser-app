@@ -1,0 +1,103 @@
+# Smart Statement Analyzer
+
+A full-stack web application designed to parse and analyze financial statements from PDF files. Users can upload a document and extract key information using either a high-speed, rule-based engine or a powerful, flexible Google Cloud AI model. The application also features an intelligent, interactive chat interface, allowing users to ask natural language questions about the document's content.
+
+![previews](./previews/image.png)
+![previews](./previews/img2.png)
+![previews](./previews/enhanced_feature.png)
+---
+## ✨ Features
+
+* **Dual Parsing Engines:**
+    * **Rule-Based Parser:** Optimized for over 10 major Indian banks with fine-tuned regular expressions.
+    * **AI-Powered Parser:** Leverages Google Cloud Document AI for robust and flexible data extraction from a wide variety of statement formats, including both credit card and bank account statements.
+* **Intelligent Chat Interface:**
+    * **Summarization:** Recognizes commands like "summary" to provide a structured overview of the parsed data.
+    * **AI-Powered Q&A:** Uses NLP (TF-IDF and Cosine Similarity) to find and return the single most relevant sentence in the document that answers a user's question.
+* **Modern Frontend:** A clean, elegant, and responsive user interface built with React.
+
+---
+## 🛠️ Tech Stack
+
+* **Backend:** Python, FastAPI, Uvicorn
+* **Frontend:** JavaScript, React, Vite
+* **PDF Parsing:** `pdfplumber`, `re`
+* **AI Services:** Google Cloud Document AI
+* **AI Chat:** `scikit-learn` (for TF-IDF)
+
+---
+## 🚀 Setup and Installation
+
+Follow these steps to set up the project on your local machine.
+
+### **Backend**
+1.  Navigate to the `backend` folder:
+    ```bash
+    cd backend
+    ```
+2.  Create and activate a Python virtual environment:
+    ```bash
+    # Create the environment
+    python -m venv venv
+    
+    # Activate on Windows
+    .\venv\Scripts\activate
+    ```
+3.  Install the required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+    *(Note: If `requirements.txt` is missing, create it by running `pip freeze > requirements.txt` from your active venv after installing all packages.)*
+
+
+### **Frontend**
+1.  Navigate to the `frontend` folder:
+    ```bash
+    cd frontend
+    ```
+2.  Install the Node.js dependencies:
+    ```bash
+    npm install
+    ```
+
+---
+## ⚙️ Configuration
+
+To use the **"Analyze with AI"** and **"Chat with PDF"** features, you must configure your Google Cloud credentials.
+
+1.  **Google Cloud Setup:**
+    * Enable the **Document AI API** in your Google Cloud project.
+    * Create a **Service Account** and grant it the **`Document AI Editor`** role.
+    * Create and download a **JSON key** for this service account.
+    * Create a **Processor** (e.g., "Document OCR") in the Document AI dashboard.
+
+2.  **Local Setup:**
+    * Place the downloaded JSON key file in the `backend/` folder and rename it to `gcp_credentials.json`.
+    * Open `backend/ml_parser_service.py` and replace the placeholder values for `PROJECT_ID` and `PROCESSOR_ID` with your own.
+    * Before running the backend server, set the environment variable in your terminal:
+        ```bash
+        # On Windows
+        set GOOGLE_APPLICATION_CREDENTIALS=gcp_credentials.json
+        ```
+
+---
+## ▶️ Running the Application
+
+You need to run both the backend and frontend servers simultaneously in two separate terminals.
+
+**1. Run the Backend Server:**
+   * Open a terminal, navigate to `backend/`, and activate the virtual environment.
+   * Set the credentials variable as shown in the configuration step.
+   * Run the server:
+     ```bash
+     uvicorn main:app --reload
+     ```
+   The backend will be running at `http://localhost:8000`.
+
+**2. Run the Frontend Server:**
+   * Open a **new** terminal and navigate to `frontend/`.
+   * Run the server:
+     ```bash
+     npm run dev
+     ```
+   The frontend will be accessible in your browser at `http://localhost:5173`.
